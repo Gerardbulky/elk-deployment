@@ -9,6 +9,9 @@ data:
       beats {
         port => 5044
       }
+      http {
+        port => 8080
+      }
     }
 
     filter {
