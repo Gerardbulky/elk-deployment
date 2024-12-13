@@ -31,3 +31,8 @@ data:
         index => "apache-logs-%{+YYYY.MM.dd}"
       }
     }
+  logstash.yml: |
+    xpack.monitoring.enabled: true
+    xpack.monitoring.elasticsearch:
+      hosts: ["http://elasticsearch:9200"]
+    pipeline.ecs_compatibility: disabled
