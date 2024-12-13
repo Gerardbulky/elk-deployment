@@ -21,11 +21,7 @@ spec:
         volumeMounts:
         - name: config-volume
           mountPath: /usr/share/logstash/pipeline/
-        - name: apache-logs
-          mountPath: /usr/share/logstash/pipeline/apache-logs/
       volumes:
       - name: config-volume
         configMap:
           name: logstash-config
-      - name: apache-logs
-        emptyDir: {}

@@ -6,20 +6,22 @@ metadata:
 data:
   logstash.conf: |
     input {
-      file {
-        path => "/usr/share/logstash/pipeline/apache-logs/*.log"
-        start_position => "beginning"
-        sincedb_path => "/dev/null"
+      beats {
+        port => 5044
       }
     }
+
     filter {
-      grok {
-        match => { "message" => "%{COMBINEDAPACHELOG}" }
-      }
-      date {
-        match => [ "timestamp", "dd/MMM/yyyy:HH:mm:ss Z" ]
+      if [fields][log_type] == "apache" {
+        grok {
+          match => { "message" => "%{COMMONAPACHELOG}" }
+        }
+        date {
+          match => [ "timestamp", "dd/MMM/yyyy:HH:mm:ss Z" ]
+        }
       }
     }
+
     output {
       elasticsearch {
         hosts => ["http://elasticsearch:9200"]
