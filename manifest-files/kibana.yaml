@@ -18,6 +18,11 @@ spec:
           image: docker.elastic.co/kibana/kibana:7.10.0
           ports:
             - containerPort: 5601
-          env:
-            - name: ELASTICSEARCH_URL
-              value: "http://20.235.143.8:9200"  # Update with your LoadBalancer IP
+          volumeMounts:
+            - name: kibana-config
+              mountPath: /usr/share/kibana/config/kibana.yaml
+              subPath: kibana.yaml
+      volumes:
+        - name: kibana-config
+          configMap:
+            name: kibana-config
