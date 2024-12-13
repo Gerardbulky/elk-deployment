@@ -31,7 +31,7 @@ data:
         index => "apache-logs-%{+YYYY.MM.dd}"
       }
     }
-  logstash.yml: |
+  logstash.yaml: |
     xpack.monitoring.enabled: true
     xpack.monitoring.elasticsearch:
       hosts: ["http://20.235.143.8:9200"]
