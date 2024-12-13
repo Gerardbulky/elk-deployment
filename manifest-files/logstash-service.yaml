@@ -27,12 +27,12 @@ data:
 
     output {
       elasticsearch {
-        hosts => ["http://elasticsearch:9200"]
+        hosts => ["http://20.235.143.8:9200"]
         index => "apache-logs-%{+YYYY.MM.dd}"
       }
     }
   logstash.yml: |
     xpack.monitoring.enabled: true
     xpack.monitoring.elasticsearch:
-      hosts: ["http://elasticsearch:9200"]
+      hosts: ["http://20.235.143.8:9200"]
     pipeline.ecs_compatibility: disabled
