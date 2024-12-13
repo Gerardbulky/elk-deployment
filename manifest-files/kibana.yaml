@@ -18,11 +18,6 @@ spec:
           image: docker.elastic.co/kibana/kibana:7.10.0
           ports:
             - containerPort: 5601
-          volumeMounts:
-            - name: kibana-config
-              mountPath: /usr/share/kibana/config/kibana.yaml
-              subPath: kibana.yaml
-      volumes:
-        - name: kibana-config
-          configMap:
-            name: kibana-config
+          env:
+            - name: SERVER_CSP_RULES
+              value: "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
