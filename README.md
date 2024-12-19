@@ -619,7 +619,7 @@ Hit the hostname from your browser, and you should see the Kibana dashboard.
 
 Congratulations! You have successfully deployed the ELK Stack to your AKS cluster with HTTPS enabled.
 
-![Kibana Dashboard](images/kibana-dashboard.png)
+![Kibana Dashboard](images/kibana-dashboard-empty.png)
 
 ## Conclusion
 
