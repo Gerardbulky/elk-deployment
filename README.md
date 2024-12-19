@@ -1,6 +1,6 @@
 # Deploying Container Images With Azure Container Registry(ACR)
 
-![Ports](images/ELK-stack.png)
+![Ports](images/ELK-Stack.png)
 
 Azure Container Registry allows us to store, build and deploy images on Azure. The main benefit of using ACR comparing to Docker Hub is storing images in a private repository.
 
@@ -483,7 +483,7 @@ Run the following command to label ingress-basic for validation:
 kubectl label namespace ingress-basic cert-manager.io/disable-validation=true
 ```
 
-![Ingress Validation](images/ingress-validation.png)
+![Ingress Validation](images/Ingress-validation.png)
 
 Add the cert manager helm repo and update the repo
 ```sh
