@@ -5,6 +5,7 @@ kubectl apply -f elasticsearch.yaml
 kubectl apply -f elasticsearch-service.yaml
 kubectl apply -f filebeat.yaml
 kubectl apply -f filebeat-daemonset.yaml
+# kubectl apply -f filebeat-rbac.yaml
 kubectl apply -f logstash.yaml
 kubectl apply -f logstash-service.yaml
 kubectl apply -f kibana.yaml
