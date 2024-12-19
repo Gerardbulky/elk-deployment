@@ -24,8 +24,10 @@ docker run -d -t <your_image_name>:<image-tag>
 
 #### How It Works:
 When you run a container with -p 5000:80, any traffic sent to port 5000 on the `` host `` will be forwarded to port 80 inside the container. 
-For example:
+**For example:**
     If the application is running inside the container on port 80, you can access it from your host machine via http://localhost:5000
+
+
 ![Ports](images/ports.png)
 
 
