@@ -630,6 +630,7 @@ This structure provides a comprehensive guide for deploying the ELK Stack (Elast
 For more detailed configurations and customizations, refer to the official [Elastic Helm Charts documentation](https://github.com/elastic/helm-charts).
 
 
-
+## Contact
+If you have questions or would like to discuss further, feel free to reach out to me or connect me directly on my [LinkedIn Profile](https://www.linkedin.com/in/gerard-ambe-80050b152/).
 
 
