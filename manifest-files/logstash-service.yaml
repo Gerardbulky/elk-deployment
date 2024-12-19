@@ -1,38 +1,12 @@
 apiVersion: v1
-kind: ConfigMap
+kind: Service
 metadata:
-  name: logstash-config
+  name: logstash
   namespace: elk
-data:
-  logstash.conf: |
-    input {
-      beats {
-        port => 5044
-      }
-      http {
-        port => 8080
-      }
-    }
-
-    filter {
-      if [fields][log_type] == "apache" {
-        grok {
-          match => { "message" => "%{COMMONAPACHELOG}" }
-        }
-        date {
-          match => [ "timestamp", "dd/MMM/yyyy:HH:mm:ss Z" ]
-        }
-      }
-    }
-
-    output {
-      elasticsearch {
-        hosts => ["http://20.235.143.8:9200"]
-        index => "apache-logs-%{+YYYY.MM.dd}"
-      }
-    }
-  logstash.yaml: |
-    xpack.monitoring.enabled: true
-    xpack.monitoring.elasticsearch:
-      hosts: ["http://20.235.143.8:9200"]
-    pipeline.ecs_compatibility: disabled
+spec:
+  ports:
+    - port: 5044
+      targetPort: 5044
+      protocol: TCP
+  selector:
+    app: logstash

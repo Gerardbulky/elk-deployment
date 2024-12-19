@@ -19,5 +19,5 @@ spec:
           ports:
             - containerPort: 5601
           env:
-            - name: SERVER_CSP_RULES
-              value: "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
+            - name: ELASTICSEARCH_HOSTS
+              value: "http://elasticsearch:9200"
