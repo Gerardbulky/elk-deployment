@@ -32,11 +32,87 @@ Click on the ``Next : Tags`` button below which will take you to the tag page. A
 ![Resouce -group](images/resource-tag.png)
 
 Then click on the **``Next:Review + create``** button, which will take you to the page shown below:
+
 ![Resouce -group](images/resource-group-validate.png)
 
 Finally, create the **``Create``** button and your Resource group is now created.
 
 ## Create a Virtual Machine(VM)
+##### 1. Setting up
+Next, we will create a VM within our resource group. In this VM we will install and configure **``kubectl``**, so we can communicate with the K8s cluter from the **CLI**. To create a VM, follow the steps below:
+
+Go to your Azure portal and in the search bar, type ``virtual`` and click on the first one.
+
+![Resouce -group](images/vm.png)
+
+Click on it, then click on **``Create``**, then **``Azure Virtual machine``**
+
+Fill the information as show below:
+
+![Resouce -group](images/vm-setup.png)
+
+![Resouce -group](images/vm-setup2.png)
+
+Leave everything as it is and click on **``Tags``**
+
+Put in your tags, then click on **``Review + create``**.
+
+![Resouce -group](images/tags.png)
+
+You will see all the information about your VM to be created. Click **``Create``**
+
+![Resouce -group](images/create-vm.png)
+
+Now click on the **``Download``** button to download your RSA Key
+
+![Resouce -group](images/rsa-key.png)
+
+Congratulations, That's it with setting up your VM. 
+
+##### 2a. Connect via SSH
+To connect to the VM, click on **``connect``**, **``connect``**, then click on **``Select``**
+
+A window will pop up on the side of your screen to **``copy and execute SSH command``**
+
+Copy the command and paste it on your Notepad.
+
+![Resouce -group](images/connect-via-ssh.png)
+
+##### 2b. Connect via CLI
+Now create a folder on your PC, name it anything you want. Put the key you created into the folder. Right-click on the folder and open it using a CLI. In my case I am using Git Bash.
+
+![Resouce -group](images/git-bash.png)
+
+Write **``ls``** on the your terminal and you will be to see your key.
+
+![Resouce -group](images/your-key.png)
+
+Now to connect to your VM. Paste the **``SSH command``** you copied before on the terminal. Replace **`` ~/.ssh/id_rsa.pem``** with your key.pem. Which will now look something like this **``ssh -i elk-vm_key.pem elk-user@20.235.147.13``**
+
+![Resouce -group](images/replaced-key.png)
+
+
+Press **``enter``** and type **``yes``** to confirm.
+
+![Resouce -group](images/fingerprint.png)
+
+Congratulations! You have now SSH into your VM and now connected to your VM from your CLI.
+
+![Resouce -group](images/ssh-into-vm.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -45,7 +121,7 @@ Finally, create the **``Create``** button and your Resource group is now created
 To build the image locally, first we will clone the repository and cd into the flask-app directory that contains the Dockerfile and use the commands to build the docker image. Run the commands below:
 
 ```sh
-git clone 
+git clone https://github.com/Gerardbulky/ELK-Stack-Deployment.git
 ```
 
 ```sh
@@ -53,11 +129,11 @@ cd flask-app
 ```
 
 ```sh
-docker build -t <your_image_name>:<image-tag> .
+docker build -t flask-image:latest .
 ```
 Run the image using:
 ```sh
-docker run -d -t <your_image_name>:<image-tag>
+docker run -d -t flask-image:latest
 ```
 
 #### How It Works:
