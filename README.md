@@ -2,12 +2,45 @@
 
 ![Ports](images/ELK-Stack.png)
 
-Azure Container Registry allows us to store, build and deploy images on Azure. The main benefit of using ACR comparing to Docker Hub is storing images in a private repository.
+When working with Azure, setting up the right environment is the first step toward managing your applications effectively. 
+
+In this guide, we’ll walk through the process of creating: 
+- ``Resource Group``
+- ``Virtual Machine (VM)`` 
+- ``Clone the repository``
+- ``Building a Docker image``
+- ``Push Image to an Azure Container Registry (ACR)``
 
 ## Prerequisites
-- Docker installed
-- Azure CLI installed
-## Build Your Image Locally
+- An active Azure account.
+
+## Create a Resource Group
+A resource group is a container for managing your Azure resources. A resource group is essential because deleting a resources group will delete all the resources( eg, VM, cluster), all at once, instead of deleting them individually yourself. To create a new resource group, follow the steps below.
+
+Go to your Azure portal and in the search bar, type ``resource`` and click on the first one.
+![Resouce -group](images/resource-group.png)
+
+
+Now click on **``Create``** and add your Resource group name as shown below:
+
+![Resouce -group](images/resource-group-name.png)
+
+Click on the ``Next : Tags`` button below which will take you to the tag page. Add a tag as shown below:
+**Note**
+    Tagging your resources is important for tracking usage and managing costs across different environments effectively. 
+
+![Resouce -group](images/resource-tag.png)
+
+Then click on the **``Next:Review + create``** button, which will take you to the page shown below:
+![Resouce -group](images/resource-group-validate.png)
+
+Finally, create the **``Create``** button and your Resource group is now created.
+
+## Create a Virtual Machine(VM)
+
+
+
+## Clone the repository
 
 To build the image locally, first we will cd into the flask-app directory that contains the Dockerfile and use the commands to build the docker image:
 ```sh
@@ -32,6 +65,7 @@ When you run a container with -p 5000:80, any traffic sent to port 5000 on the `
 
 
 ## Create Azure Container Registry
+Azure Container Registry allows us to store, build and deploy images on Azure. The main benefit of using ACR comparing to Docker Hub is storing images in a private repository.
 
 We will create our Container Registry using Azure CLI. Make sure you have installed the Azure CLI in your terminal. From the Azure CLI we need to use the following command in our terminal.
 
