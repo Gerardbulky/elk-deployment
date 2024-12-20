@@ -42,7 +42,12 @@ Finally, create the **``Create``** button and your Resource group is now created
 
 ## Clone the repository
 
-To build the image locally, first we will cd into the flask-app directory that contains the Dockerfile and use the commands to build the docker image:
+To build the image locally, first we will clone the repository and cd into the flask-app directory that contains the Dockerfile and use the commands to build the docker image. Run the commands below:
+
+```sh
+git clone 
+```
+
 ```sh
 cd flask-app
 ```
