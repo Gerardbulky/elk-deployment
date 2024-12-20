@@ -35,7 +35,7 @@ Then click on the **``Next:Review + create``** button, which will take you to th
 
 ![Resouce -group](images/resource-group-validate.png)
 
-Finally, create the **``Create``** button and your Resource group is now created.
+Click **``Create``**. This will create your resource group.
 
 ## Create a Virtual Machine(VM)
 ##### 1. Setting up
