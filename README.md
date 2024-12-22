@@ -342,7 +342,7 @@ metadata:
   namespace: elk
 spec:
   serviceName: elasticsearch
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: elasticsearch
@@ -357,12 +357,25 @@ spec:
           ports:
             - containerPort: 9200
           env:
-            - name: discovery.type
-              value: "single-node"
+            - name: discovery.type    # Elasticsearch uses cluster ``discovery`` to discover and communicate with other Nodes. It will result to failure if no other Nodes are found. 
+              value: "single-node"    # Setting ``discovery.type`` to "single-node" disables the cluster discovery mechanism. It functions as a standalone node and avoids looking for other nodes. This is particularly useful for ``development``, testing, or ``when running a single-node deployment in production``.
+          # env:    # Only use if you need to scale the replica to more than 3 
+          #   - name: discovery.seed_hosts
+          #     value: "elasticsearch-0,elasticsearch-1,elasticsearch-2"
+          #   - name: cluster.initial_master_nodes
+          #     value: "elasticsearch-0"
           resources:
             limits:
               memory: "2Gi"
               cpu: "1"
+          volumeMounts:
+            - name: elasticsearch-data
+              mountPath: /usr/share/elasticsearch/data  # Mounts the persistent volume inside the Elasticsearch container
+      volumes:
+        - name: elasticsearch-data
+          persistentVolumeClaim:
+            claimName: elasticsearch-pvc
+
 ```
 
 ##### Elasticsearch Service (elasticsearch-service.yaml):

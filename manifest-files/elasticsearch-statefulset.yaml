@@ -5,7 +5,7 @@ metadata:
   namespace: elk
 spec:
   serviceName: elasticsearch
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: elasticsearch
@@ -26,3 +26,10 @@ spec:
             limits:
               memory: "2Gi"
               cpu: "1"
+          volumeMounts:
+            - name: elasticsearch-data
+              mountPath: /usr/share/elasticsearch/data
+      volumes:
+        - name: elasticsearch-data
+          persistentVolumeClaim:
+            claimName: elasticsearch-pvc
