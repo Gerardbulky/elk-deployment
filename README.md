@@ -18,6 +18,7 @@ In this guide, we’ll walk through the process of creating:
 A resource group is a container for managing your Azure resources. A resource group is essential because deleting a resources group will delete all the resources( eg, VM, cluster), all at once, instead of deleting them individually yourself. To create a new resource group, follow the steps below.
 
 Go to your Azure portal and in the search bar, type ``resource`` and click on the first one.
+
 ![Resouce -group](images/resource-group.png)
 
 
@@ -87,7 +88,11 @@ Write **``ls``** on the your terminal and you will be to see your key.
 
 ![Resouce -group](images/your-key.png)
 
-Now to connect to your VM. Paste the **``SSH command``** you copied before on the terminal. Replace **`` ~/.ssh/id_rsa.pem``** with your key.pem. Which will now look something like this **``ssh -i elk-vm_key.pem elk-user@20.235.147.13``**
+Now to connect to your VM. Paste the **``SSH command``** you copied before on the terminal. Replace **`` ~/.ssh/id_rsa.pem``** with your key.pem.
+
+```sh 
+ssh -i elk-vm_key.pem elk-user@20.235.147.13
+```
 
 ![Resouce -group](images/replaced-key.png)
 
@@ -102,30 +107,30 @@ Congratulations! You have now SSH into your VM and now connected to your VM from
 
 
 
+## Installing Docker
 
-
-
-
-
-
-
-
-
-
-
-
+```sh
+# Installing Docker 
+#!/bin/bash
+sudo apt update
+sudo apt install docker.io -y
+sudo usermod -aG docker elk-user
+sudo systemctl restart docker
+sudo chmod 777 /var/run/docker.sock
+```
 
 
 ## Clone the repository
 
 To build the image locally, first we will clone the repository and cd into the flask-app directory that contains the Dockerfile and use the commands to build the docker image. Run the commands below:
 
+
 ```sh
 git clone https://github.com/Gerardbulky/ELK-Stack-Deployment.git
 ```
 
 ```sh
-cd flask-app
+cd ELK-Stack-Deployment/flask-app
 ```
 
 ```sh
@@ -133,31 +138,56 @@ docker build -t flask-image:latest .
 ```
 Run the image using:
 ```sh
-docker run -d -t flask-image:latest
+docker run -d -p 5000:80 flask-image:latest
 ```
 
-#### How It Works:
+Check if the docker image is running:
+```sh
+docker ps
+```
+
+##### How It Works:
 When you run a container with -p 5000:80, any traffic sent to port 5000 on the `` host `` will be forwarded to port 80 inside the container. 
 **For example:**
-    If the application is running inside the container on port 80, you can access it from your host machine via http://localhost:5000
+    If the application is running inside the container on port 80, you can access it from your host machine via http://<<IP:address>>:5000 
 
 
 ![Ports](images/ports.png)
 
 
+
+## Update Network Security Group Rules
+In other to access our application over Port 5000, we need to update the NSG rules.
+
+Go to ``Virtual machines``, then go to ``Network settings`` and Click on it:
+
+![Netwrok Settings](images/nsg.png)
+
+Click on `` Create port rule ``
+
+![Netwrok Settings](images/inbound-port.png)
+
+Fill the information as below and click ``Save``.
+
+![Netwrok Settings](images/port.png)
+
+## Access Application
+Now go to your web browser, and add your Virtual machines IP Address and port 5000 as shown below:
+
+http://<<IP:address>>:5000
+
+
 ## Create Azure Container Registry
 Azure Container Registry allows us to store, build and deploy images on Azure. The main benefit of using ACR comparing to Docker Hub is storing images in a private repository.
 
-We will create our Container Registry using Azure CLI. Make sure you have installed the Azure CLI in your terminal. From the Azure CLI we need to use the following command in our terminal.
+Replace the <container_registry_name> with a container name of your choice. It should be in small letters, as it is case sensitive:
 
 ```sh
-az acr create --resource-group <resource_group_name> \
+az acr create --resource-group Elk-demo \
               --name <container_registry_name> \
               --sku Basic \
-              --tags <tag-key>=<tag-value>
+              --tags Tags=elk-tag
 ```
-NOTE:
-    Tagging your resources is crucial for tracking usage across different environments.
     
 
 After creating Container Registry, you can view that by going to the Azure portal and on the search bar, type ``container registries`` and click on it.
