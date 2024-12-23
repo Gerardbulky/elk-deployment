@@ -331,7 +331,7 @@ Now, you can run the command to list the nodes.
 kubectl get nodes
 ```
 
-![Ports](images/kubectl-get-nodes.png)
+![Ports](images/kubectl-get-pods.png)
 
 
 
