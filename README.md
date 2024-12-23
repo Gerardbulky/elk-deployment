@@ -10,6 +10,7 @@ In this guide, we’ll walk through the process of creating:
 - ``Clone the repository``
 - ``Building a Docker image``
 - ``Push Image to an Azure Container Registry (ACR)``
+- ``Deploy Image Azure Kubernetes Service (AKS)``
 
 ## Prerequisites
 - An active Azure account.
@@ -107,7 +108,7 @@ Congratulations! You have now SSH into your VM and now connected to your VM from
 
 
 
-## Installing Docker
+#### Installing Docker
 
 ```sh
 # Installing Docker 
@@ -156,7 +157,7 @@ When you run a container with -p 5000:80, any traffic sent to port 5000 on the `
 
 
 
-## Update Network Security Group Rules
+#### Update Network Security Group Rules
 In other to access our application over Port 5000, we need to update the NSG rules.
 
 Go to ``Virtual machines``, then go to ``Network settings`` and Click on it:
@@ -171,15 +172,17 @@ Fill the information as below and click ``Add``.
 
 ![Netwrok Settings](images/port.png)
 
-## Access Application
+#### Access Application
 Now go to your web browser, and add your Virtual machines IP Address and port 5000 as shown below:
 
 http://<<IP:address>>:5000
 
+## Build & Push Image To Container Registry
+Azure Container Registry allows us to store, build and deploy images on Azure. We will need to create a registry to store our image.
 
-## Create Azure Container Registry
-To access Azure CLI on a your Linux(Ubuntu distribution or Debian distribution) machine, Run the following command:
+We will need to install the Azure CLI to create our ACR account.
 
+#### Install Azure CLI
 ```sh
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 ```
@@ -192,6 +195,7 @@ Copy the URL and paste to your favourite browser and the code. This will log you
 
 ![Netwrok Settings](images/url-code.png)
 
+#### Create Azure Registry
 
 Replace the ``<container_registry_name>`` with a name of your choice. It should be in small letters, as it is case sensitive:
 
@@ -212,7 +216,7 @@ That will take you to the ACR portal. Take note on the ``login server url`` as y
 ![Ports](images/azure-login-url.png)
 
 
-## Push Your Image To Container Registry 
+#### Build & Push Image To Container Registry 
 Before pushing the image, we must authenticate with the Azure Container Registry(ACR). In the Azure CLI, run the command to log you into the ACR:
 
 ```sh
@@ -223,7 +227,7 @@ Build the Image:
 ```sh
 docker build -t <container_registry_name>.azurecr.io/flask-image:latest .
 ```
-
+Push Image:
 ```sh
 docker push <container_registry_name>.azurecr.io/flask-image:latest
 ```
@@ -240,103 +244,62 @@ Go to your Azure portal and in the search bar, type ``kubernetes`` and click on 
 
 ![Ports](images/k8s.png)
 
-Start by creating a new Resource Group. Click on "Create new" to proceed.
+Click on **Create**, then Kubernetes cluster.
+
+![Ports](images/k8s-cluster.png)
+
+Select your resource group name. Click on "Next" to proceed.
+
 
 ![Ports](images/azure-vnets.png)
 
 Provide the name of your Virtual Network and click on Next.
 
-![Ports](images/vnet.png)
+In the ``Node pools``, update the name and click ``Update``.
+
+![Ports](images/node-name.png)
 
 
-Create two public subnets for high availability in Azure Kubernetes:
+In the ``Networking``, Select kubelet and Calico as Network policy.
 
-Delete the default subnet.
-Click ``Add a subnet`` and create two subnets with your desired IP ranges.
-Click ``Next`` to proceed.
+![Ports](images/network.png)
 
-![Ports](images/virtual-subnets.png)
+Now go to ``Tags``, add your tag and click on ``Review + Create``
 
-Click on ``Review + create`` to validate the error in the configurations. If there is no error feel free to click on ``Create``.
+![Ports](images/k8s-tag.png)
 
-![Ports](images/virtual-subnet.png)
+Once your deployment is complete, click on ``Go to resource``.
 
-Once your deployment is done, in the search field enter ``Kubernetes services`` and click on the first one.
-
-![Ports](images/virtual-subnet.png)
-
-Click on Create and select Create a Kubernetes cluster.
-
-![Ports](images/virtual-subnet.png)
-
-Select the Same Resource Group that we have created while creating the Virtual Network. After that, provide the name to your AKS keep the things same as shown in the below snippet, and click on Node Pools.
-
-![Ports](images/virtual-subnet.png)
+![Ports](images/go-to-resource.png)
 
 
-In the Node pools section, we have to add Worker Node. Remember one thing the default node(agentpool) is a system node. So you don’t have to do anything with that node.
+Click on **Connect**.
 
+![Ports](images/connect-to-cluster.png)
 
-Click on ``Add node pool``
+We will run these commands in our terminal to connect to our cluster but first, we need to kubectl.
 
-![Ports](images/virtual-subnet.png)
-
-Provide the name to your worker node and keep the things same as shown in the below snippet such as Node size and Mode, etc.
-
-![Ports](images/virtual-subnet.png)
-
-Now, click on Networking section.
-
-![Ports](images/virtual-subnet.png)
-
-Select the kubenet as Network configuration then, keep Calico as Network policy and click on Review + Create by skipping integrations and Advanced sections.
-
-![Ports](images/virtual-subnet.png)
-
-Once the validation is passed, click on Create.
-
-![Ports](images/virtual-subnet.png)
-
-Once your deployment is complete, click on Go to resource.
-
-![Ports](images/virtual-subnet.png)
-
-Click on Connect.
-
-![Ports](images/virtual-subnet.png)
-
-You will have to run two commands that are showing on the right of the snippet to configure it on local or Cloud Shell.
-
-But, we will configure it on our local. For that, we need to install Azure CLI and kubectl on our local machine.
-
-![Ports](images/virtual-subnet.png)
-
-
-To install kubectl on your local machine follow the below commands.
+#### Install Kubectl
 
 ```sh
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.3/2023-11-14/bin/linux/amd64/kubectl
 ```
 
-![Ports](images/virtual-subnet.png)
+![Ports](images/kubectl-install.png)
+
 
 ```sh
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.3/2023-11-14/bin/linux/amd64/kubectl.sha256
 ```
 
-![Ports](images/virtual-subnet.png)
+![Ports](images/kubectl-install-2.png)
+
 
 ```sh
 sha256sum -c kubectl.sha256
 ```
 
-![Ports](images/virtual-subnet.png)
-
-```sh
-openssl sha1 -sha256 kubectl
-```
-
-![Ports](images/virtual-subnet.png)
+![Ports](images/kubectl-install-3.png)
 
 ```sh
 chmod +x ./kubectl
@@ -344,20 +307,40 @@ mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$P
 echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
 ```
 
-![Ports](images/virtual-subnet.png)
-
+![Ports](images/kubectl-install-4.png)
 
 ```sh
 kubectl version --client
 ```
 
-![Ports](images/virtual-subnet.png)
+![Ports](images/kubectl-version.png)
+
+
+#### Connect Azure AKS to CLI
+From your CLI, run both commands to connect to AKS.
+
+![Ports](images/connect-to-cluster.png)
+
+![Ports](images/connect-to-aks.png)
+
+
+Now, you can run the command to list the nodes.
+
+
+```sh
+kubectl get nodes
+```
+
+![Ports](images/kubectl-get-nodes.png)
 
 
 
 
 
-##### Grant AKS Access to ACR
+
+
+
+#### Grant AKS Access to ACR
 Before running the kubectl apply, we need to grant access to the ACR and to do so, we need to attach the ACR to the AKS cluster so it can pull the image.
 
 ```sh
@@ -374,12 +357,98 @@ It will display the ``registry login server``
 
 
 
+#### Deploy Application yaml
+Now, let’s try to deploy the Apache application on AKS
 
-##### Install kubectl
+From your terminal, 
+
+```sh
+nano deployment.yaml
+```
+
+Paste the code snippet. Replace  ``<container-registry-name>`` with your ACR name.
+
+```sh
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-deployment
+  labels: 
+    app: flask-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: flask-app
+  template: 
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      containers:
+      - name: flask-container
+        image: <container-registry-name>.azurecr.io/flask-image:latest
+        ports:
+        - containerPort: 5000
+```
+Type ``Ctrl + x`` to exit
+Type ``y + Enter``
+
+```sh
+kubectl apply -f deployment.yml
+```
+
+![registry-login-server](images/kubectl-apply.png)
+
+
+```sh
+kubectl get pods
+```
+
+![registry-login-server](images/kubectl-get-pods.png)
+
+
+Now, Let's host the application outside of the Kubernetes Cluster by creating a service for the application.
+
+```sh
+nano service.yaml
+```
+
+
+```sh
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-service
+spec:
+  selector:
+    app: flask-app
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 5000
+```
+
+Type ``Ctrl + x`` to exit
+Type ``y + Enter``
+
+```sh
+kubectl apply -f service.yaml
+```
+![registry-login-server](images/service.png)
+
+```sh
+kubectl get svc
+```
+
+![registry-login-server](images/external-ip.png)
+
+Copy  the ``EXTERNAL-IP Address and paste on your favourite browser and add port 5000, to view your application Live.
 
 
 
-##### Apply yaml files
+
+
 # Setting Up ELK Stack on Kubernetes: A Step-by-Step Guide
 ### ``** NOTE: I need to explain why daemonset, stableset, configMap is used **``
 
