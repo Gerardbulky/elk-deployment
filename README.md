@@ -552,7 +552,7 @@ metadata:
   namespace: elk
 spec:
   serviceName: elasticsearch
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: elasticsearch
