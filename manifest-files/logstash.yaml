@@ -41,6 +41,8 @@ data:
     output {
       elasticsearch {
         hosts => ["http://elasticsearch:9200"]
+        user => "elastic"
+        password => "elkpassword"
         index => "logstash-%{+YYYY.MM.dd}"
       }
     }
