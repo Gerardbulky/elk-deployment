@@ -552,7 +552,7 @@ metadata:
   namespace: elk
 spec:
   serviceName: elasticsearch
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: elasticsearch
@@ -561,6 +561,13 @@ spec:
       labels:
         app: elasticsearch
     spec:
+      initContainers:
+        - name: fix-permissions
+          image: busybox
+          command: ["sh", "-c", "chown -R 1000:1000 /usr/share/elasticsearch/data"]
+          volumeMounts:
+            - name: elasticsearch-data
+              mountPath: /usr/share/elasticsearch/data
       containers:
         - name: elasticsearch
           image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
@@ -574,6 +581,10 @@ spec:
           #     value: "elasticsearch-0,elasticsearch-1,elasticsearch-2"
           #   - name: cluster.initial_master_nodes
           #     value: "elasticsearch-0"
+            - name: xpack.security.enabled
+              value: "true"
+            - name: ELASTIC_PASSWORD
+              value: "elkpassword"
           resources:
             limits:
               memory: "2Gi"
