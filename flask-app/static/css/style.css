@@ -9494,6 +9494,11 @@ textarea.form-control {
 .contact-section .contact-info p a {
   color: #1a1a1a; }
 
+/* Added by me */
+.contact-sections .contact-info p a {
+  color: #1a1a1a; }
+  /* end */
+
 .contact-section .box {
   width: 100%;
   display: block;
@@ -9501,9 +9506,27 @@ textarea.form-control {
   -moz-border-radius: 4px;
   -ms-border-radius: 4px;
   border-radius: 4px; }
+
+  /* added by me */
+  .contacts-section .box {
+    width: 100%;
+    display: block;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    border-radius: 4px; }
+   /* end */
+
   @media (max-width: 991.98px) {
     .contact-section .box {
-      margin-bottom: 30px; } }
+      margin-bottom: 30px; } 
+    
+    /* added by me */
+    .contact-sections .box {
+      margin-bottom: 30px; }
+    }
+
+
   .contact-section .box .icon {
     width: 70px;
     height: 70px;
@@ -9514,9 +9537,30 @@ textarea.form-control {
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
     border-radius: 50%; }
+
+    /* added by me */
+    .contact-sections .box .icon {
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.1);
+      margin: 0 auto;
+      /* margin-bottom: 2em; */
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      -ms-border-radius: 50%;
+      border-radius: 50%; }
+      /* end */
+
     .contact-section .box .icon span {
       color: #ffbd39;
       font-size: 30px; }
+
+      /* added by me */
+      .contact-sections .box .icon span {
+        color: #ffbd39;
+        font-size: 30px; }
+        /* end */
+
   .contact-section .box h3 {
     font-size: 17px;
     font-weight: 500;
