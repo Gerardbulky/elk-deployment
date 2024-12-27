@@ -591,7 +591,7 @@ spec:
               cpu: "1"
           volumeMounts:
             - name: elasticsearch-data
-              mountPath: /usr/share/elasticsearch/data  # Mounts the persistent volume inside the Elasticsearch container
+              mountPath: /usr/share/elasticsearch/data  # Mounts the persistent volume inside the Elasticsearch container.
       volumes:
         - name: elasticsearch-data
           persistentVolumeClaim:

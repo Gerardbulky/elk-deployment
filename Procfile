@@ -1,0 +1,1 @@
+web: cd flask-app python app.py
