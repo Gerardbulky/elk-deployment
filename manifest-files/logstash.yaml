@@ -38,6 +38,32 @@ data:
         port => 5044
       }
     }
+    filter {
+      # Parse the JSON from the "message" field
+      json {
+        source => "message"
+        target => "parsed_json"
+      }
+
+      # Extracts the timestamp from the JSON and set it as the event timestamp
+      date {
+        match => ["[parsed_json][@timestamp]", "ISO8601"]
+      }
+
+      # Renamed fields to match the desired structure
+      mutate {
+        rename => { "[parsed_json][@timestamp]" => "timestamp" }
+        rename => { "[parsed_json][loglevel]" => "loglevel" }
+        rename => { "[parsed_json][component]" => "component" }
+        rename => { "[parsed_json][message]" => "message" }
+      }
+
+      # Removed the "parsed_json" field to clean up the output
+      mutate {
+        remove_field => ["parsed_json"]
+      }
+    }
+
     output {
       elasticsearch {
         hosts => ["http://elasticsearch:9200"]

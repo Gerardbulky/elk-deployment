@@ -197,7 +197,7 @@ Copy the URL and paste to your favourite browser and the code. This will log you
 
 #### Create Azure Registry
 
-Replace the ``<container_registry_name>`` with a name of your choice. It should be in small letters, as it is case sensitive:
+Replace the ``<container_registry_name>`` with your container name. It should be in small letters and no hyphen(-) and it should be unique. My container name is ``elkcontainer``, use something else:
 
 ```sh
 az acr create --resource-group Elk-demo \
