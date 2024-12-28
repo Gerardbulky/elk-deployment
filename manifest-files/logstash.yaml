@@ -39,10 +39,26 @@ data:
       }
     }
     filter {
-      # Use grok to parse the log message
-      grok {
-        match => {
-          "message" => "\[%{TIMESTAMP_ISO8601:timestamp}\]\[%{LOGLEVEL:loglevel}\s*\]\[%{DATA:component}\]\[%{GREEDYDATA:message}\]"
+      # Parse the log message if it's JSON
+      json {
+        source => "message"
+        target => "parsed_message"
+        skip_on_invalid_json => true
+      }
+
+      # Check if the message is not JSON and parse it as a plain log
+      if ![parsed_message] {
+        grok {
+          match => {
+            "message" => "%{TIMESTAMP_ISO8601:timestamp}\t%{LOGLEVEL:loglevel}\t\[%{DATA:component}\]\t%{GREEDYDATA:log_message}"
+          }
+        }
+      } else {
+        # Extract fields from the parsed JSON message
+        grok {
+          match => {
+            "[parsed_message][message]" => "%{TIMESTAMP_ISO8601:timestamp}\t%{LOGLEVEL:loglevel}\t\[%{DATA:component}\]\t%{GREEDYDATA:log_message}"
+          }
         }
       }
 
@@ -51,11 +67,12 @@ data:
         match => ["timestamp", "ISO8601"]
       }
 
-      # Optional: Clean up the original message field if not needed
+      # Optional: Clean up intermediate fields if not needed
       mutate {
-        remove_field => ["message"]
+        remove_field => ["parsed_message"]
       }
     }
+
 
 
     output {
