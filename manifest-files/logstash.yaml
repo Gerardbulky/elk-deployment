@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: logstash
-          image: docker.elastic.co/logstash/logstash:7.10.0
+          image: docker.elastic.co/logstash/logstash:8.17.0
           ports:
             - containerPort: 5044
           volumeMounts:
@@ -38,43 +38,6 @@ data:
         port => 5044
       }
     }
-    filter {
-      # Parse the log message if it's JSON
-      json {
-        source => "message"
-        target => "parsed_message"
-        skip_on_invalid_json => true
-      }
-
-      # Check if the message is not JSON and parse it as a plain log
-      if ![parsed_message] {
-        grok {
-          match => {
-            "message" => "%{TIMESTAMP_ISO8601:timestamp}\t%{LOGLEVEL:loglevel}\t\[%{DATA:component}\]\t%{GREEDYDATA:log_message}"
-          }
-        }
-      } else {
-        # Extract fields from the parsed JSON message
-        grok {
-          match => {
-            "[parsed_message][message]" => "%{TIMESTAMP_ISO8601:timestamp}\t%{LOGLEVEL:loglevel}\t\[%{DATA:component}\]\t%{GREEDYDATA:log_message}"
-          }
-        }
-      }
-
-      # Convert the timestamp field to the Logstash event timestamp
-      date {
-        match => ["timestamp", "ISO8601"]
-      }
-
-      # Optional: Clean up intermediate fields if not needed
-      mutate {
-        remove_field => ["parsed_message"]
-      }
-    }
-
-
-
     output {
       elasticsearch {
         hosts => ["http://elasticsearch:9200"]
