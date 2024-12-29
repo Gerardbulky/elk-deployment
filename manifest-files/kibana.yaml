@@ -21,9 +21,13 @@ spec:
           env:
             - name: ELASTICSEARCH_HOSTS
               value: "http://elasticsearch:9200"
-            - name: ELASTICSEARCH_USERNAME
-              value: "elastic"
-            - name: ELASTICSEARCH_PASSWORD
-              value: "elkpassword"
-            - name: xpack.security.enabled
-              value: "true"
+            - name: ELASTICSEARCH_SERVICE_TOKEN
+              value: "AAEAAWVsYXN0aWMva2liYW5hL2tpYmFuYS1zeXN0ZW06YzUzMWRLUm1SVzIzMXJCTkVST0hZQQ"
+            # Uncomment the lines below if needed for other configurations
+            # - name: ELASTICSEARCH_USERNAME
+            #   value: "elastic"
+            # - name: ELASTICSEARCH_PASSWORD
+            #   value: "elkpassword"
+            # - name: xpack.security.enabled
+            #   value: "true"
+
