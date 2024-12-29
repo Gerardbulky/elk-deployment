@@ -33,6 +33,8 @@ spec:
               value: "true"
             - name: ELASTIC_PASSWORD
               value: "elkpassword"
+            - name: ES_JAVA_OPTS
+              value: "-Dpath.repo=/mount/backups"
           resources:
             limits:
               memory: "2Gi"
@@ -40,6 +42,13 @@ spec:
           volumeMounts:
             - name: elasticsearch-data
               mountPath: /usr/share/elasticsearch/data
+            - name: backup-mount
+              mountPath: /mount/backups
+      volumes:
+        - name: backup-mount
+          hostPath:
+            path: /mount/backups    # Path on the host machine
+            type: DirectoryOrCreate
   volumeClaimTemplates:
     - metadata:
         name: elasticsearch-data
