@@ -34,7 +34,7 @@ spec:
             - name: ELASTIC_PASSWORD
               value: "elkpassword"
             - name: ES_JAVA_OPTS
-              value: "-Dpath.repo=/mount/backups"
+              value: "-Des.path.repo=/mount/backups"
           resources:
             limits:
               memory: "2Gi"
