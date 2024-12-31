@@ -23,7 +23,7 @@ spec:
               mountPath: /usr/share/elasticsearch/data
       containers:
         - name: elasticsearch
-          image: docker.elastic.co/elasticsearch/elasticsearch:8.17.0
+          image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
           ports:
             - containerPort: 9200
           env:
@@ -33,22 +33,20 @@ spec:
               value: "true"
             - name: ELASTIC_PASSWORD
               value: "elkpassword"
-            - name: ES_JAVA_OPTS
-              value: "-Des.path.repo=/mount/backups"
           resources:
             limits:
               memory: "2Gi"
               cpu: "1"
           volumeMounts:
             - name: elasticsearch-data
-              mountPath: /usr/share/elasticsearch/data
-            - name: backup-mount
-              mountPath: /mount/backups
-      volumes:
-        - name: backup-mount
-          hostPath:
-            path: /mount/backups    # Path on the host machine
-            type: DirectoryOrCreate
+      #         mountPath: /usr/share/elasticsearch/data
+      #       - name: backup-mount
+      #         mountPath: /mount/backups
+      # volumes:
+      #   - name: backup-mount
+      #     hostPath:
+      #       path: /mount/backups    # Path on the host machine
+      #       type: DirectoryOrCreate
   volumeClaimTemplates:
     - metadata:
         name: elasticsearch-data

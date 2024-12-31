@@ -4,7 +4,7 @@
 
 When working with Azure, setting up the right environment is the first step toward managing your applications effectively. 
 
-In this guide, we’ll walk through the process of creating: 
+In this guide, we'll walk through the process of creating: 
 - ``Resource Group``
 - ``Virtual Machine (VM)`` 
 - ``Clone the repository``
@@ -509,7 +509,7 @@ spec:
     spec:
       containers:
         - name: filebeat
-          image: docker.elastic.co/beats/filebeat:8.17.0
+          image: docker.elastic.co/beats/filebeat:7.17.0
           args: [
             "-c", "/etc/filebeat.yaml",
             "-e"
@@ -570,7 +570,7 @@ spec:
               mountPath: /usr/share/elasticsearch/data
       containers:
         - name: elasticsearch
-          image: docker.elastic.co/elasticsearch/elasticsearch:8.17.0
+          image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
           ports:
             - containerPort: 9200
           env:
@@ -645,7 +645,7 @@ spec:
     spec:
       containers:
         - name: logstash
-          image: docker.elastic.co/logstash/logstash:8.17.0
+          image: docker.elastic.co/logstash/logstash:7.17.0
           ports:
             - containerPort: 5044
           volumeMounts:
@@ -720,7 +720,7 @@ spec:
     spec:
       containers:
         - name: kibana
-          image: docker.elastic.co/kibana/kibana:8.17.0   #Old version 7.10.0
+          image: docker.elastic.co/kibana/kibana:7.17.0   #Old version 7.10.0
           ports:
             - containerPort: 5601
           env:
