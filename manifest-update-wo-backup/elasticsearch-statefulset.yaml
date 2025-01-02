@@ -14,13 +14,10 @@ spec:
       labels:
         app: elasticsearch
     spec:
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
       initContainers:
-        # - name: fix-backup-permissions
-        #   image: busybox
-        #   command: ["sh", "-c", "chown -R 1000:1000 /mount/backups && chmod -R 770 /mount/backups"]
-        #   volumeMounts:
-        #     - name: backup-mount
-        #       mountPath: /mount/backups
         - name: fix-permissions
           image: busybox
           command: ["sh", "-c", "chown -R 1000:1000 /usr/share/elasticsearch/data"]
@@ -32,6 +29,7 @@ spec:
           image: docker.elastic.co/elasticsearch/elasticsearch:8.17.0
           ports:
             - containerPort: 9200
+            - containerPort: 9300
           env:
             - name: discovery.type
               value: "single-node"
@@ -40,21 +38,20 @@ spec:
             - name: xpack.security.enrollment.enabled
               value: "true"
             - name: ELASTIC_PASSWORD
-              value: "elkpassword"
+              valueFrom:
+                secretKeyRef:
+                  name: elasticsearch-secret
+                  key: elastic-password
           resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
             limits:
               memory: "2Gi"
               cpu: "1"
           volumeMounts:
             - name: elasticsearch-data
               mountPath: /usr/share/elasticsearch/data
-            # - name: backup-mount
-            #   mountPath: /mount/backups
-      # volumes:
-      #   - name: backup-mount
-      #     hostPath:
-      #       path: /mount/backups    # Path on the host machine
-      #       type: DirectoryOrCreate
   volumeClaimTemplates:
     - metadata:
         name: elasticsearch-data
@@ -63,4 +60,4 @@ spec:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 2Gi
+            storage: 5Gi

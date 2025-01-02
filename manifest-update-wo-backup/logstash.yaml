@@ -18,9 +18,23 @@ spec:
           image: docker.elastic.co/logstash/logstash:8.17.0
           ports:
             - containerPort: 5044
+          env:
+            - name: ELASTICSEARCH_HOST
+              value: "http://elasticsearch:9200"
+            - name: ELASTICSEARCH_USER
+              valueFrom:
+                secretKeyRef:
+                  name: elasticsearch-secret
+                  key: elastic-username
+            - name: ELASTICSEARCH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: elasticsearch-secret
+                  key: elastic-password
           volumeMounts:
             - name: config-volume
               mountPath: /usr/share/logstash/pipeline/
+              subPath: logstash.conf
       volumes:
         - name: config-volume
           configMap:
@@ -40,9 +54,10 @@ data:
     }
     output {
       elasticsearch {
-        hosts => ["http://elasticsearch:9200"]
-        user => "elastic"
-        password => "elkpassword"
+        hosts => ["${ELASTICSEARCH_HOST}"]
+        user => "${ELASTICSEARCH_USER}"
+        password => "${ELASTICSEARCH_PASSWORD}"
         index => "logstash-%{+YYYY.MM.dd}"
       }
     }
+
