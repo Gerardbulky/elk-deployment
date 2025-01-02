@@ -19,8 +19,6 @@ spec:
           ports:
             - containerPort: 5044
           env:
-            - name: ELASTICSEARCH_HOST
-              value: "http://elasticsearch:9200"
             - name: ELASTICSEARCH_USER
               valueFrom:
                 secretKeyRef:
@@ -53,12 +51,13 @@ data:
     }
     output {
       elasticsearch {
-        hosts => ["${ELASTICSEARCH_HOST}"]
+        hosts => ["http://elasticsearch:9200"]
         user => "${ELASTICSEARCH_USER}"
         password => "${ELASTICSEARCH_PASSWORD}"
         index => "logstash-%{+YYYY.MM.dd}"
       }
     }
+
 ---
 apiVersion: v1
 kind: Secret

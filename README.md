@@ -133,7 +133,7 @@ git clone https://github.com/Gerardbulky/ELK-Stack-Deployment.git
 ```sh
 cd ELK-Stack-Deployment/flask-app
 ```
-
+Build docker image:
 ```sh
 docker build -t flask-image:latest .
 ```
@@ -191,19 +191,23 @@ curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 az login
 ```
 
-Copy the URL and paste to your favourite browser and the code. This will log you into your Azure account from your terminal.
+Copy the URL and paste to your favourite browser and the **code**. This will log you into your Azure account from your terminal.
 
 ![Netwrok Settings](images/url-code.png)
+
+You will be logged into your Azure account from the terminal. Press **Enter**
+
+![Netwrok Settings](images/subscriptionid.png)
 
 #### Create Azure Registry
 
 Replace the ``<container_registry_name>`` with your container name. It should be in small letters and no hyphen(-) and it should be unique. My container name is ``elkcontainer``, use something else:
 
 ```sh
-az acr create --resource-group Elk-demo \
-              --name <container_registry_name> \
+az acr create --resource-group elk-resource \
+              --name elkregistry \
               --sku Basic \
-              --tags Tags=elk-tag
+              --tags Name=elk-tag
 ```
     
 
@@ -220,16 +224,16 @@ That will take you to the ACR portal. Take note on the ``login server url`` as y
 Before pushing the image, we must authenticate with the Azure Container Registry(ACR). In the Azure CLI, run the command to log you into the ACR:
 
 ```sh
-az acr login --name <container_registry_name>
+az acr login --name elkregistry
 ```
 Build the Image:
 
 ```sh
-docker build -t <container_registry_name>.azurecr.io/flask-image:latest .
+docker build -t elkregistry.azurecr.io/flask-image:latest .
 ```
 Push Image:
 ```sh
-docker push <container_registry_name>.azurecr.io/flask-image:latest
+docker push elkregistry.azurecr.io/flask-image:latest
 ```
 After the push, verify that the image is in your Azure Container Registry:
 ```sh
@@ -273,13 +277,13 @@ Once your deployment is complete, click on ``Go to resource``.
 ![Ports](images/go-to-resource.png)
 
 
-Click on **Connect**.
+<!-- Click on **Connect**.
 
-![Ports](images/connect-to-cluster.png)
+![Ports](images/connect-to-cluster.png) -->
 
-We will run these commands in our terminal to connect to our cluster but first, we need to kubectl.
 
-#### Install Kubectl
+## Install Kubectl
+We need to install kubectl to connect our cluster to the terminal.
 
 ```sh
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.3/2023-11-14/bin/linux/amd64/kubectl
@@ -344,7 +348,7 @@ kubectl get nodes
 Before running the kubectl apply, we need to grant access to the ACR and to do so, we need to attach the ACR to the AKS cluster so it can pull the image.
 
 ```sh
-az aks update -n <aks-cluster-name> -g <resource-group-name> --attach-acr <acr-name>
+az aks update -n elk-cluster-demo -g elk-resource --attach-acr elkregistry
 ```
 To confirm the AKS cluster can pull images from ACR, run:
 
@@ -391,8 +395,8 @@ spec:
         ports:
         - containerPort: 5000
 ```
-Type ``Ctrl + x`` to exit
-Type ``y + Enter``
+Press ``Ctrl + x`` to exit
+Press ``y + Enter``
 
 ```sh
 kubectl apply -f deployment.yml

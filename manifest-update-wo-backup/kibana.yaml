@@ -61,7 +61,7 @@ metadata:
   namespace: elk
 type: Opaque
 data:
-  encryption-key: AAEAAWVsYXN0aWMva2liYW5hL2tpYmFuYS10b2tlbjpDNTFMdVJqWVJNeWUwVjNweXNzMHhB # Base64 encoded
+  encryption-key: M2NTdHEzakhCMkEvNU9kazIwcGFoSTh6RCtOT3BHRTQ3SzRTbGxGZlhOaz0= # 3cStq3jHB2A/5Odk20pahI8zD+NOpGE47K4SllFfXNk= # Base64 encoded
 
 
 
