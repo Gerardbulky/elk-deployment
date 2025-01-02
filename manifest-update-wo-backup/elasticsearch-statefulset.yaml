@@ -15,6 +15,12 @@ spec:
         app: elasticsearch
     spec:
       initContainers:
+        # - name: fix-backup-permissions
+        #   image: busybox
+        #   command: ["sh", "-c", "chown -R 1000:1000 /mount/backups && chmod -R 770 /mount/backups"]
+        #   volumeMounts:
+        #     - name: backup-mount
+        #       mountPath: /mount/backups
         - name: fix-permissions
           image: busybox
           command: ["sh", "-c", "chown -R 1000:1000 /usr/share/elasticsearch/data"]
@@ -30,11 +36,11 @@ spec:
             - name: discovery.type
               value: "single-node"
             - name: xpack.security.enabled
-              value: "false"
-            - name: ELASTIC_PASSWORD
-              value: "elkpassword"
+              value: "true"
             - name: xpack.security.enrollment.enabled
               value: "true"
+            - name: ELASTIC_PASSWORD
+              value: "elkpassword"
           resources:
             limits:
               memory: "2Gi"

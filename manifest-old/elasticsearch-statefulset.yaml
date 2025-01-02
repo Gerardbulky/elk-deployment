@@ -39,7 +39,7 @@ spec:
               cpu: "1"
           volumeMounts:
             - name: elasticsearch-data
-      #         mountPath: /usr/share/elasticsearch/data
+              mountPath: /usr/share/elasticsearch/data
       #       - name: backup-mount
       #         mountPath: /mount/backups
       # volumes:

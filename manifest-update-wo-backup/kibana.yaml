@@ -22,7 +22,7 @@ spec:
             - name: elasticsearch.hosts
               value: "http://elasticsearch:9200"
             - name: elasticsearch.serviceAccountToken
-              value: "AAEAAWVsYXN0aWMva2liYW5hL2tpYmFuYS1zeXN0ZW06YzUzMWRLUm1SVzIzMXJCTkVST0hZQQ"
+              value: "AAEAAWVsYXN0aWMva2liYW5hL2tpYmFuYS1hY2Nlc3MtdG9rZW46ZWtyX2t5ZmNUcnFrZThlM2twTzJQQQ"
             - name: xpack.security.encryptionKey
               value: "KMbIUEmceO/wCMlSv66rjKg8GTvdt4kkO4hY4Cp991E="
             - name: xpack.encryptedSavedObjects.encryptionKey
