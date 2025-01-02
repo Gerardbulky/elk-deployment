@@ -53,15 +53,15 @@ data:
     elasticsearch.hosts: ["http://elasticsearch:9200"]
     xpack.screenshotting.browser.chromium.disableSandbox: true
 
-# ---
-# apiVersion: v1
-# kind: Secret
-# metadata:
-#   name: kibana-secret
-#   namespace: elk
-# type: Opaque
-# data:
-#   encryption-key: AAEAAWVsYXN0aWMva2liYW5hL2tpYmFuYS10b2tlbjpDNTFMdVJqWVJNeWUwVjNweXNzMHhB # Base64 encoded
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kibana-secret
+  namespace: elk
+type: Opaque
+data:
+  encryption-key: AAEAAWVsYXN0aWMva2liYW5hL2tpYmFuYS10b2tlbjpDNTFMdVJqWVJNeWUwVjNweXNzMHhB # Base64 encoded
 
 
 
