@@ -13,7 +13,7 @@ def index():
 @app.route("/readme")
 def readme():
     # Read the README.md file
-    with open("../using-quickstart.md", "r") as file:
+    with open("using-quickstart.md", "r") as file:
         content = file.read()
     
     # Convert Markdown to HTML
