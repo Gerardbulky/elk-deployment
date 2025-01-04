@@ -33,3 +33,4 @@ spec:
         - name: kibana-config
           configMap:
             name: kibana-config
+

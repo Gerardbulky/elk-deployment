@@ -583,7 +583,7 @@ kubectl -n elk exec pod/<kibana-pod-name> -- curl -H "Authorization: Bearer <Kib
 
 Verify the credentials using the Elasticsearch API are correct:
 ```sh
-kubectl -n elk exec pod/<elasticserach-pod-name> -- curl -X GET -u elastic:<password> "http://<elasticsearch-host>:9200"
+kubectl -n elk exec pod/<elasticsearch-pod-name> -- curl -X GET -u elastic:<password> "http://<elasticsearch-host>:9200"
 ```
 
 Verify that logs are indexed in Elasticsearch under the ``logstash-*`` index:
