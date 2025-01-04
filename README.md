@@ -399,7 +399,7 @@ Press ``Ctrl + x`` to exit
 Press ``y + Enter``
 
 ```sh
-kubectl apply -f deployment.yml
+kubectl apply -f deployment.yaml
 ```
 
 ![registry-login-server](images/kubectl-apply.png)

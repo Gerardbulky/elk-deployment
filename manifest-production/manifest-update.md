@@ -473,8 +473,12 @@ Run this command to create a service account token for Kibana to use to access e
 ```sh
 kubectl -n elk exec $(kubectl get pods -n elk -l app=elasticsearch -o jsonpath='{.items[0].metadata.name}') -- bin/elasticsearch-service-tokens create elastic/kibana kibana-token
 ```
-Copy the generated token and add it to kibana-config.yaml:
+Copy the generated token and add it to kibana-configmap.yaml:
 
+```sh
+nano kibana-configmap.yaml
+```
+Replace ``<your-service-account-token>`` with the token:
 ```sh
 elasticsearch.serviceAccountToken: "<your-service-account-token>"
 ```
