@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: logstash
-          image: docker.elastic.co/logstash/logstash:7.10.0
+          image: docker.elastic.co/logstash/logstash:7.17.0
           ports:
             - containerPort: 5044
           volumeMounts:
@@ -25,6 +25,7 @@ spec:
         - name: config-volume
           configMap:
             name: logstash-config
+
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -41,8 +42,6 @@ data:
     output {
       elasticsearch {
         hosts => ["http://elasticsearch:9200"]
-        user => "elastic"
-        password => "elkpassword"
         index => "logstash-%{+YYYY.MM.dd}"
       }
     }

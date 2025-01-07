@@ -15,25 +15,10 @@ spec:
     spec:
       containers:
         - name: kibana
-          image: docker.elastic.co/kibana/kibana:7.10.0
+          image: docker.elastic.co/kibana/kibana:7.17.0
           ports:
             - containerPort: 5601
           env:
             - name: ELASTICSEARCH_HOSTS
               value: "http://elasticsearch:9200"
-            - name: ELASTICSEARCH_SERVICE_TOKEN
-              value: "AAEAAWVsYXN0aWMva2liYW5hL2tpYmFuYS1zeXN0ZW06YzUzMWRLUm1SVzIzMXJCTkVST0hZQQ"
-            # Uncomment the lines below if needed for other configurations
-            # - name: ELASTICSEARCH_USERNAME
-            #   value: "elastic"
-            # - name: ELASTICSEARCH_PASSWORD
-            #   value: "elkpassword"
-            - name: xpack.security.encryptionKey
-              value: "KMbIUEmceO/wCMlSv66rjKg8GTvdt4kkO4hY4Cp991E="
-            - name: xpack.encryptedSavedObjects.encryptionKey
-              value: "HXeldtxFPKSua7FLBP7yO/20f02Yk3SiEnyTAe2pzfU="
-            - name: NODE_OPTIONS
-              value: "--no-experimental-fetch --openssl-legacy-provider=false"
-            - name: xpack.security.enabled
-              value: "true"
 
